@@ -122,7 +122,7 @@ end
 
 if isfield(data_struct,'center_dispersion_2')== 1
     
-  dispersion_2 = data_struct.center_dispersion_1;
+  dispersion_2 = data_struct.center_dispersion_2;
   hold on
   plot(wavelength,dispersion_2,'white .')
 end
