@@ -4,7 +4,7 @@ function trace(Number,filename)
 %       : filename : 'filename.nc'
 % Output : same number of trace plots as the input gievn.
 % helps to check the fit of the data at different time traces
-% figure number mainly defines the nth row of the wavelength 
+ 
 
 %% read files
 Number = round(Number);
