@@ -26,6 +26,15 @@ classdef appPlugin_exported < matlab.apps.AppBase
         UIAxes7                matlab.ui.control.UIAxes
         UIAxes8                matlab.ui.control.UIAxes
         ResultsButton          matlab.ui.control.Button
+        Nodal_DiagramTab       matlab.ui.container.Tab
+        UIAxes13               matlab.ui.control.UIAxes
+        ModelButton            matlab.ui.control.Button
+        TracesTab              matlab.ui.container.Tab
+        Spectral_SummaryTab    matlab.ui.container.Tab
+        UIAxes9                matlab.ui.control.UIAxes
+        UIAxes10               matlab.ui.control.UIAxes
+        UIAxes11               matlab.ui.control.UIAxes
+        UIAxes12               matlab.ui.control.UIAxes
     end
 
 
@@ -40,7 +49,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
         lsv
         rsv
         residual 
-        txt2 % call within other methods
+        txt2 
+        kmat % call within other methods
     end
 
     
@@ -110,6 +120,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.lsv = data_struct.residual_left_singular_vectors;
             app.rsv = data_struct.residual_right_singular_vectors;
             app.residual = data_struct.residual;
+            app.kmat = data_struct.k_matrix;
 
         end
 
@@ -236,6 +247,17 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
 
         end
+
+        % Button pushed function: ModelButton
+        function ModelButtonPushed(app, event)
+            species = {'A','B','C','D','E'} % size of kmat
+            % for test the species , later users will input
+            [C2,C1,rates] =find (app.kmat)
+            
+            G = digraph(C1,C2,rates,species);
+            H =plot(app.UIAxes13,G,'Layout','force','EdgeLabel',G.Edges.Weight);
+            layout(H,'layered','Direction','down');
+        end
     end
 
     % Component initialization
@@ -325,7 +347,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
             % Create Sequential_Model
             app.Sequential_Model = uitab(app.TabGroup);
-            app.Sequential_Model.Title = 'Sequential_Model';
+            app.Sequential_Model.Title = 'Compartmental_Model';
 
             % Create UIAxes3
             app.UIAxes3 = uiaxes(app.Sequential_Model);
@@ -367,7 +389,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
             % Create Residual_Conc_profile
             app.Residual_Conc_profile = uitab(app.TabGroup);
-            app.Residual_Conc_profile.Title = 'Res';
+            app.Residual_Conc_profile.Title = 'Residuals';
 
             % Create UIAxes5
             app.UIAxes5 = uiaxes(app.Residual_Conc_profile);
@@ -402,6 +424,61 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.ResultsButton.ButtonPushedFcn = createCallbackFcn(app, @ResultsButtonPushed, true);
             app.ResultsButton.Position = [268 1 86 22];
             app.ResultsButton.Text = 'Results';
+
+            % Create Nodal_DiagramTab
+            app.Nodal_DiagramTab = uitab(app.TabGroup);
+            app.Nodal_DiagramTab.Title = 'Nodal_Diagram';
+
+            % Create UIAxes13
+            app.UIAxes13 = uiaxes(app.Nodal_DiagramTab);
+            title(app.UIAxes13, 'Model Visualization')
+            xlabel(app.UIAxes13, 'X')
+            ylabel(app.UIAxes13, 'Y')
+            app.UIAxes13.FontWeight = 'bold';
+            app.UIAxes13.Box = 'on';
+            app.UIAxes13.Position = [99 1 511 385];
+
+            % Create ModelButton
+            app.ModelButton = uibutton(app.Nodal_DiagramTab, 'push');
+            app.ModelButton.ButtonPushedFcn = createCallbackFcn(app, @ModelButtonPushed, true);
+            app.ModelButton.Position = [10 385 100 22];
+            app.ModelButton.Text = {'Model'; ''};
+
+            % Create TracesTab
+            app.TracesTab = uitab(app.TabGroup);
+            app.TracesTab.Title = 'Traces';
+
+            % Create Spectral_SummaryTab
+            app.Spectral_SummaryTab = uitab(app.TabGroup);
+            app.Spectral_SummaryTab.Title = 'Spectral_Summary';
+
+            % Create UIAxes9
+            app.UIAxes9 = uiaxes(app.Spectral_SummaryTab);
+            title(app.UIAxes9, 'Title')
+            xlabel(app.UIAxes9, 'X')
+            ylabel(app.UIAxes9, 'Y')
+            app.UIAxes9.Position = [1 224 300 185];
+
+            % Create UIAxes10
+            app.UIAxes10 = uiaxes(app.Spectral_SummaryTab);
+            title(app.UIAxes10, 'Title')
+            xlabel(app.UIAxes10, 'X')
+            ylabel(app.UIAxes10, 'Y')
+            app.UIAxes10.Position = [300 224 300 185];
+
+            % Create UIAxes11
+            app.UIAxes11 = uiaxes(app.Spectral_SummaryTab);
+            title(app.UIAxes11, 'Title')
+            xlabel(app.UIAxes11, 'X')
+            ylabel(app.UIAxes11, 'Y')
+            app.UIAxes11.Position = [1 40 300 185];
+
+            % Create UIAxes12
+            app.UIAxes12 = uiaxes(app.Spectral_SummaryTab);
+            title(app.UIAxes12, 'Title')
+            xlabel(app.UIAxes12, 'X')
+            ylabel(app.UIAxes12, 'Y')
+            app.UIAxes12.Position = [300 40 300 185];
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
