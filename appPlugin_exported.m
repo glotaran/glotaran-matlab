@@ -2,7 +2,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure                        matlab.ui.Figure
+        Pyglotaran_Plugin               matlab.ui.Figure
         FileButton                      matlab.ui.control.Button
         StatusLampLabel                 matlab.ui.control.Label
         StatusLamp                      matlab.ui.control.Lamp
@@ -36,11 +36,10 @@ classdef appPlugin_exported < matlab.apps.AppBase
         EditFieldLabel                  matlab.ui.control.Label
         EditField                       matlab.ui.control.NumericEditField
         UIAxes14                        matlab.ui.control.UIAxes
-        Spectral_SummaryTab             matlab.ui.container.Tab
+        Comparision_DataTab             matlab.ui.container.Tab
         UIAxes9                         matlab.ui.control.UIAxes
-        UIAxes10                        matlab.ui.control.UIAxes
         UIAxes11                        matlab.ui.control.UIAxes
-        UIAxes12                        matlab.ui.control.UIAxes
+        Button                          matlab.ui.control.Button
     end
 
 
@@ -297,6 +296,12 @@ classdef appPlugin_exported < matlab.apps.AppBase
               plot(app.UIAxes14,app.time,storedata_row{n},'k --');
             end
         end
+
+        % Button pushed function: Button
+        function ButtonPushed(app, event)
+       imagesc(app.UIAxes9,app.wavelength,app.time,app.data');   
+       imagesc(app.UIAxes11,app.wavelength,app.time,app.fitdata'); 
+        end
     end
 
     % Component initialization
@@ -305,19 +310,19 @@ classdef appPlugin_exported < matlab.apps.AppBase
         % Create UIFigure and components
         function createComponents(app)
 
-            % Create UIFigure and hide until all components are created
-            app.UIFigure = uifigure('Visible', 'off');
-            app.UIFigure.Position = [100 100 640 480];
-            app.UIFigure.Name = 'UI Figure';
+            % Create Pyglotaran_Plugin and hide until all components are created
+            app.Pyglotaran_Plugin = uifigure('Visible', 'off');
+            app.Pyglotaran_Plugin.Position = [100 100 640 480];
+            app.Pyglotaran_Plugin.Name = 'UI Figure';
 
             % Create FileButton
-            app.FileButton = uibutton(app.UIFigure, 'push');
+            app.FileButton = uibutton(app.Pyglotaran_Plugin, 'push');
             app.FileButton.ButtonPushedFcn = createCallbackFcn(app, @FileButtonPushed, true);
             app.FileButton.Position = [10 455 100 22];
             app.FileButton.Text = 'File';
 
             % Create StatusLampLabel
-            app.StatusLampLabel = uilabel(app.UIFigure);
+            app.StatusLampLabel = uilabel(app.Pyglotaran_Plugin);
             app.StatusLampLabel.HorizontalAlignment = 'right';
             app.StatusLampLabel.VerticalAlignment = 'top';
             app.StatusLampLabel.FontWeight = 'bold';
@@ -325,13 +330,13 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.StatusLampLabel.Text = 'Status';
 
             % Create StatusLamp
-            app.StatusLamp = uilamp(app.UIFigure);
+            app.StatusLamp = uilamp(app.Pyglotaran_Plugin);
             app.StatusLamp.Enable = 'off';
             app.StatusLamp.Position = [176 456 20 20];
             app.StatusLamp.Color = [1 1 0];
 
             % Create TabGroup
-            app.TabGroup = uitabgroup(app.UIFigure);
+            app.TabGroup = uitabgroup(app.Pyglotaran_Plugin);
             app.TabGroup.Position = [10 12 621 434];
 
             % Create Parallel_Model
@@ -520,40 +525,31 @@ classdef appPlugin_exported < matlab.apps.AppBase
             ylabel(app.UIAxes14, 'Y')
             app.UIAxes14.Position = [1 46 620 363];
 
-            % Create Spectral_SummaryTab
-            app.Spectral_SummaryTab = uitab(app.TabGroup);
-            app.Spectral_SummaryTab.Title = 'Spectral_Summary';
+            % Create Comparision_DataTab
+            app.Comparision_DataTab = uitab(app.TabGroup);
+            app.Comparision_DataTab.Title = 'Comparision_Data';
 
             % Create UIAxes9
-            app.UIAxes9 = uiaxes(app.Spectral_SummaryTab);
+            app.UIAxes9 = uiaxes(app.Comparision_DataTab);
             title(app.UIAxes9, 'Title')
             xlabel(app.UIAxes9, 'X')
             ylabel(app.UIAxes9, 'Y')
-            app.UIAxes9.Position = [1 224 300 185];
-
-            % Create UIAxes10
-            app.UIAxes10 = uiaxes(app.Spectral_SummaryTab);
-            title(app.UIAxes10, 'Title')
-            xlabel(app.UIAxes10, 'X')
-            ylabel(app.UIAxes10, 'Y')
-            app.UIAxes10.Position = [300 224 300 185];
+            app.UIAxes9.Position = [150 208 300 185];
 
             % Create UIAxes11
-            app.UIAxes11 = uiaxes(app.Spectral_SummaryTab);
+            app.UIAxes11 = uiaxes(app.Comparision_DataTab);
             title(app.UIAxes11, 'Title')
             xlabel(app.UIAxes11, 'X')
             ylabel(app.UIAxes11, 'Y')
-            app.UIAxes11.Position = [1 40 300 185];
+            app.UIAxes11.Position = [150 15 300 185];
 
-            % Create UIAxes12
-            app.UIAxes12 = uiaxes(app.Spectral_SummaryTab);
-            title(app.UIAxes12, 'Title')
-            xlabel(app.UIAxes12, 'X')
-            ylabel(app.UIAxes12, 'Y')
-            app.UIAxes12.Position = [300 40 300 185];
+            % Create Button
+            app.Button = uibutton(app.Comparision_DataTab, 'push');
+            app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
+            app.Button.Position = [24 371 100 22];
 
             % Show the figure after all components are created
-            app.UIFigure.Visible = 'on';
+            app.Pyglotaran_Plugin.Visible = 'on';
         end
     end
 
@@ -567,7 +563,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
             createComponents(app)
 
             % Register the app with App Designer
-            registerApp(app, app.UIFigure)
+            registerApp(app, app.Pyglotaran_Plugin)
 
             if nargout == 0
                 clear app
@@ -578,7 +574,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
         function delete(app)
 
             % Delete UIFigure when app is deleted
-            delete(app.UIFigure)
+            delete(app.Pyglotaran_Plugin)
         end
     end
 end
