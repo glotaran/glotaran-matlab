@@ -2,39 +2,45 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure               matlab.ui.Figure
-        FileButton             matlab.ui.control.Button
-        StatusLampLabel        matlab.ui.control.Label
-        StatusLamp             matlab.ui.control.Lamp
-        TabGroup               matlab.ui.container.TabGroup
-        Parallel_Model         matlab.ui.container.Tab
-        PlotButton             matlab.ui.control.Button
-        UIAxes                 matlab.ui.control.UIAxes
-        UIAxes2                matlab.ui.control.UIAxes
-        SmoothDASSwitchLabel   matlab.ui.control.Label
-        SmoothDASSwitch        matlab.ui.control.Switch
-        CheckMaximaButton      matlab.ui.control.Button
-        Sequential_Model       matlab.ui.container.Tab
-        UIAxes3                matlab.ui.control.UIAxes
-        UIAxes4                matlab.ui.control.UIAxes
-        PlotButton_2           matlab.ui.control.Button
-        SmoothSASSwitchLabel   matlab.ui.control.Label
-        SmoothSASSwitch        matlab.ui.control.Switch
-        Residual_Conc_profile  matlab.ui.container.Tab
-        UIAxes5                matlab.ui.control.UIAxes
-        UIAxes6                matlab.ui.control.UIAxes
-        UIAxes7                matlab.ui.control.UIAxes
-        UIAxes8                matlab.ui.control.UIAxes
-        ResultsButton          matlab.ui.control.Button
-        Nodal_DiagramTab       matlab.ui.container.Tab
-        UIAxes13               matlab.ui.control.UIAxes
-        ModelButton            matlab.ui.control.Button
-        TracesTab              matlab.ui.container.Tab
-        Spectral_SummaryTab    matlab.ui.container.Tab
-        UIAxes9                matlab.ui.control.UIAxes
-        UIAxes10               matlab.ui.control.UIAxes
-        UIAxes11               matlab.ui.control.UIAxes
-        UIAxes12               matlab.ui.control.UIAxes
+        UIFigure                        matlab.ui.Figure
+        FileButton                      matlab.ui.control.Button
+        StatusLampLabel                 matlab.ui.control.Label
+        StatusLamp                      matlab.ui.control.Lamp
+        TabGroup                        matlab.ui.container.TabGroup
+        Parallel_Model                  matlab.ui.container.Tab
+        PlotButton                      matlab.ui.control.Button
+        UIAxes                          matlab.ui.control.UIAxes
+        UIAxes2                         matlab.ui.control.UIAxes
+        SmoothDASSwitchLabel            matlab.ui.control.Label
+        SmoothDASSwitch                 matlab.ui.control.Switch
+        CheckMaximaButton               matlab.ui.control.Button
+        Sequential_Model                matlab.ui.container.Tab
+        UIAxes3                         matlab.ui.control.UIAxes
+        UIAxes4                         matlab.ui.control.UIAxes
+        PlotButton_2                    matlab.ui.control.Button
+        SmoothSASSwitchLabel            matlab.ui.control.Label
+        SmoothSASSwitch                 matlab.ui.control.Switch
+        Residual_Conc_profile           matlab.ui.container.Tab
+        UIAxes5                         matlab.ui.control.UIAxes
+        UIAxes6                         matlab.ui.control.UIAxes
+        UIAxes7                         matlab.ui.control.UIAxes
+        UIAxes8                         matlab.ui.control.UIAxes
+        ResultsButton                   matlab.ui.control.Button
+        Nodal_DiagramTab                matlab.ui.container.Tab
+        UIAxes13                        matlab.ui.control.UIAxes
+        ModelButton                     matlab.ui.control.Button
+        CompartmentsegABEditFieldLabel  matlab.ui.control.Label
+        CompartmentsegABEditField       matlab.ui.control.EditField
+        TracesTab                       matlab.ui.container.Tab
+        TraceButton                     matlab.ui.control.Button
+        EditFieldLabel                  matlab.ui.control.Label
+        EditField                       matlab.ui.control.NumericEditField
+        UIAxes14                        matlab.ui.control.UIAxes
+        Spectral_SummaryTab             matlab.ui.container.Tab
+        UIAxes9                         matlab.ui.control.UIAxes
+        UIAxes10                        matlab.ui.control.UIAxes
+        UIAxes11                        matlab.ui.control.UIAxes
+        UIAxes12                        matlab.ui.control.UIAxes
     end
 
 
@@ -258,6 +264,39 @@ classdef appPlugin_exported < matlab.apps.AppBase
             H =plot(app.UIAxes13,G,'Layout','force','EdgeLabel',G.Edges.Weight);
             layout(H,'layered','Direction','down');
         end
+
+        % Button pushed function: TraceButton
+        function TraceButtonPushed(app, event)
+            Number = 2.5;
+    
+            Number = round(Number);
+
+            x= sqrt(Number);
+            sqc= ceil(x);  
+            
+            Lin = size(app.data,1)/Number;
+               Lin_r = round(Lin);
+           for i= 1:size(app.fitdata,1) %fitdata
+        
+                storefitdata_row{i} = app.fitdata(i,[1:size(app.fitdata,2)]);   
+                 end
+            for d = 1:size(app.data,1) %data
+                
+                storedata_row{d} = app.data(d,[1:size(app.data,2)]);   
+                end
+            
+            trace_list=1:Lin_r:size(app.fitdata,1);
+                
+            for k= 1:Number ;
+                n=trace_list(k);
+                n_rows= sqc;
+            
+              subplot(n_rows,n_rows,k);
+              plot(app.UIAxes14,app.time,storefitdata_row{n},'red');
+              hold on
+              plot(app.UIAxes14,app.time,storedata_row{n},'k --');
+            end
+        end
     end
 
     % Component initialization
@@ -436,17 +475,50 @@ classdef appPlugin_exported < matlab.apps.AppBase
             ylabel(app.UIAxes13, 'Y')
             app.UIAxes13.FontWeight = 'bold';
             app.UIAxes13.Box = 'on';
-            app.UIAxes13.Position = [99 1 511 385];
+            app.UIAxes13.Position = [10 0 602 345];
 
             % Create ModelButton
             app.ModelButton = uibutton(app.Nodal_DiagramTab, 'push');
             app.ModelButton.ButtonPushedFcn = createCallbackFcn(app, @ModelButtonPushed, true);
-            app.ModelButton.Position = [10 385 100 22];
+            app.ModelButton.Position = [14 385 100 22];
             app.ModelButton.Text = {'Model'; ''};
+
+            % Create CompartmentsegABEditFieldLabel
+            app.CompartmentsegABEditFieldLabel = uilabel(app.Nodal_DiagramTab);
+            app.CompartmentsegABEditFieldLabel.HorizontalAlignment = 'center';
+            app.CompartmentsegABEditFieldLabel.Position = [483 361 129 42];
+            app.CompartmentsegABEditFieldLabel.Text = {'Compartments (eg: {''A'''; '''B''...})'; ''; ''};
+
+            % Create CompartmentsegABEditField
+            app.CompartmentsegABEditField = uieditfield(app.Nodal_DiagramTab, 'text');
+            app.CompartmentsegABEditField.Position = [14 354 598 22];
 
             % Create TracesTab
             app.TracesTab = uitab(app.TabGroup);
             app.TracesTab.Title = 'Traces';
+
+            % Create TraceButton
+            app.TraceButton = uibutton(app.TracesTab, 'push');
+            app.TraceButton.ButtonPushedFcn = createCallbackFcn(app, @TraceButtonPushed, true);
+            app.TraceButton.Position = [199 13 100 22];
+            app.TraceButton.Text = {'Trace'; ''};
+
+            % Create EditFieldLabel
+            app.EditFieldLabel = uilabel(app.TracesTab);
+            app.EditFieldLabel.HorizontalAlignment = 'right';
+            app.EditFieldLabel.Position = [15 13 56 22];
+            app.EditFieldLabel.Text = 'Edit Field';
+
+            % Create EditField
+            app.EditField = uieditfield(app.TracesTab, 'numeric');
+            app.EditField.Position = [86 13 100 22];
+
+            % Create UIAxes14
+            app.UIAxes14 = uiaxes(app.TracesTab);
+            title(app.UIAxes14, 'Time traces')
+            xlabel(app.UIAxes14, 'X')
+            ylabel(app.UIAxes14, 'Y')
+            app.UIAxes14.Position = [1 46 620 363];
 
             % Create Spectral_SummaryTab
             app.Spectral_SummaryTab = uitab(app.TabGroup);
