@@ -1,45 +1,46 @@
-classdef appPlugin_exported < matlab.apps.AppBase
+classdef appPluginbackup_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        Pyglotaran_Plugin               matlab.ui.Figure
-        FileButton                      matlab.ui.control.Button
-        StatusLampLabel                 matlab.ui.control.Label
-        StatusLamp                      matlab.ui.control.Lamp
-        TabGroup                        matlab.ui.container.TabGroup
-        Parallel_Model                  matlab.ui.container.Tab
-        PlotButton                      matlab.ui.control.Button
-        UIAxes                          matlab.ui.control.UIAxes
-        UIAxes2                         matlab.ui.control.UIAxes
-        SmoothDASSwitchLabel            matlab.ui.control.Label
-        SmoothDASSwitch                 matlab.ui.control.Switch
-        CheckMaximaButton               matlab.ui.control.Button
-        Sequential_Model                matlab.ui.container.Tab
-        UIAxes3                         matlab.ui.control.UIAxes
-        UIAxes4                         matlab.ui.control.UIAxes
-        PlotButton_2                    matlab.ui.control.Button
-        SmoothSASSwitchLabel            matlab.ui.control.Label
-        SmoothSASSwitch                 matlab.ui.control.Switch
-        Residual_Conc_profile           matlab.ui.container.Tab
-        UIAxes5                         matlab.ui.control.UIAxes
-        UIAxes6                         matlab.ui.control.UIAxes
-        UIAxes7                         matlab.ui.control.UIAxes
-        UIAxes8                         matlab.ui.control.UIAxes
-        ResultsButton                   matlab.ui.control.Button
-        Nodal_DiagramTab                matlab.ui.container.Tab
-        UIAxes13                        matlab.ui.control.UIAxes
-        ModelButton                     matlab.ui.control.Button
-        CompartmentsegABEditFieldLabel  matlab.ui.control.Label
-        CompartmentsegABEditField       matlab.ui.control.EditField
-        TracesTab                       matlab.ui.container.Tab
-        TraceButton                     matlab.ui.control.Button
-        EditFieldLabel                  matlab.ui.control.Label
-        EditField                       matlab.ui.control.NumericEditField
-        UIAxes14                        matlab.ui.control.UIAxes
-        Comparision_DataTab             matlab.ui.container.Tab
-        UIAxes9                         matlab.ui.control.UIAxes
-        UIAxes11                        matlab.ui.control.UIAxes
-        Button                          matlab.ui.control.Button
+        Pyglotaran_Plugin      matlab.ui.Figure
+        FileButton             matlab.ui.control.Button
+        StatusLampLabel        matlab.ui.control.Label
+        StatusLamp             matlab.ui.control.Lamp
+        TabGroup               matlab.ui.container.TabGroup
+        Parallel_Model         matlab.ui.container.Tab
+        PlotButton             matlab.ui.control.Button
+        UIAxes                 matlab.ui.control.UIAxes
+        UIAxes2                matlab.ui.control.UIAxes
+        SmoothDASSwitchLabel   matlab.ui.control.Label
+        SmoothDASSwitch        matlab.ui.control.Switch
+        CheckMaximaButton      matlab.ui.control.Button
+        Sequential_Model       matlab.ui.container.Tab
+        UIAxes3                matlab.ui.control.UIAxes
+        UIAxes4                matlab.ui.control.UIAxes
+        PlotButton_2           matlab.ui.control.Button
+        SmoothSASSwitchLabel   matlab.ui.control.Label
+        SmoothSASSwitch        matlab.ui.control.Switch
+        Residual_Conc_profile  matlab.ui.container.Tab
+        UIAxes5                matlab.ui.control.UIAxes
+        UIAxes6                matlab.ui.control.UIAxes
+        UIAxes7                matlab.ui.control.UIAxes
+        UIAxes8                matlab.ui.control.UIAxes
+        ResultsButton          matlab.ui.control.Button
+        Nodal_DiagramTab       matlab.ui.container.Tab
+        UIAxes13               matlab.ui.control.UIAxes
+        ModelButton            matlab.ui.control.Button
+        PressenterafteryoufillupclickonmodelEditFieldLabel  matlab.ui.control.Label
+        PressenterafteryoufillupclickonmodelEditField  matlab.ui.control.EditField
+        PleaseenterthenamesofyourcompartmentLabel  matlab.ui.control.Label
+        TracesTab              matlab.ui.container.Tab
+        TraceButton            matlab.ui.control.Button
+        EditFieldLabel         matlab.ui.control.Label
+        EditField              matlab.ui.control.NumericEditField
+        UIAxes14               matlab.ui.control.UIAxes
+        Comparision_DataTab    matlab.ui.container.Tab
+        UIAxes9                matlab.ui.control.UIAxes
+        UIAxes11               matlab.ui.control.UIAxes
+        Button                 matlab.ui.control.Button
     end
 
 
@@ -55,7 +56,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
         rsv
         residual 
         txt2 
-        kmat % call within other methods
+        kmat 
+          % call within other methods
     end
 
     
@@ -255,13 +257,22 @@ classdef appPlugin_exported < matlab.apps.AppBase
 
         % Button pushed function: ModelButton
         function ModelButtonPushed(app, event)
-            species = {'A','B','C','D','E'} % size of kmat
-            % for test the species , later users will input
-            [C2,C1,rates] =find (app.kmat)
+ 
+          
+            value = app.PressenterafteryoufillupclickonmodelEditField.Value;
+           if species = [];
+              disp ('fill your compartments') 
+           end
+            species = strsplit(value);
+
+            [C2,C1,rates] =find (app.kmat);
             
             G = digraph(C1,C2,rates,species);
-            H =plot(app.UIAxes13,G,'Layout','force','EdgeLabel',G.Edges.Weight);
-            layout(H,'layered','Direction','down');
+            H =plot(app.UIAxes13,G,'Layout','circle','EdgeLabel',G.Edges.Weight);
+%             layout(H,'layered','Direction','down');
+        
+            
+        
         end
 
         % Button pushed function: TraceButton
@@ -275,18 +286,18 @@ classdef appPlugin_exported < matlab.apps.AppBase
             
             Lin = size(app.data,1)/Number;
                Lin_r = round(Lin);
-           for i= 1:size(app.fitdata,1) %fitdata
+               for i= 1:size(app.fitdata,1) %fitdata
         
                 storefitdata_row{i} = app.fitdata(i,[1:size(app.fitdata,2)]);   
-                 end
-            for d = 1:size(app.data,1) %data
+                   end
+                for  d = 1:size(app.data,1) %data
                 
                 storedata_row{d} = app.data(d,[1:size(app.data,2)]);   
-                end
+                   end
             
-            trace_list=1:Lin_r:size(app.fitdata,1);
+                 trace_list=1:Lin_r:size(app.fitdata,1);
                 
-            for k= 1:Number ;
+             for k= 1:Number 
                 n=trace_list(k);
                 n_rows= sqc;
             
@@ -301,6 +312,15 @@ classdef appPlugin_exported < matlab.apps.AppBase
         function ButtonPushed(app, event)
        imagesc(app.UIAxes9,app.wavelength,app.time,app.data');   
        imagesc(app.UIAxes11,app.wavelength,app.time,app.fitdata'); 
+        end
+
+        % Value changed function: 
+        % PressenterafteryoufillupclickonmodelEditField
+        function PressenterafteryoufillupclickonmodelEditFieldValueChanged(app, event)
+            value = app.PressenterafteryoufillupclickonmodelEditField.Value;
+            species = strsplit(value)
+            
+% [app.value,matches] = strsplit(str,{' ','ain'},'CollapseDelimiters',true)
         end
     end
 
@@ -358,19 +378,21 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.UIAxes.FontName = 'Times New Roman';
             app.UIAxes.FontAngle = 'italic';
             app.UIAxes.FontWeight = 'bold';
+            app.UIAxes.XGrid = 'on';
             app.UIAxes.YGrid = 'on';
             app.UIAxes.Position = [141 201 300 185];
 
             % Create UIAxes2
             app.UIAxes2 = uiaxes(app.Parallel_Model);
             title(app.UIAxes2, 'Decay-associated spectra Norm')
-            xlabel(app.UIAxes2, 'Wavelength')
+            xlabel(app.UIAxes2, 'Wavelength (nm)')
             ylabel(app.UIAxes2, 'DAS Norm')
             app.UIAxes2.FontName = 'Times New Roman';
             app.UIAxes2.FontAngle = 'italic';
             app.UIAxes2.FontWeight = 'bold';
+            app.UIAxes2.XGrid = 'on';
             app.UIAxes2.YGrid = 'on';
-            app.UIAxes2.Position = [141 1 300 185];
+            app.UIAxes2.Position = [141 5 300 185];
 
             % Create SmoothDASSwitchLabel
             app.SmoothDASSwitchLabel = uilabel(app.Parallel_Model);
@@ -401,6 +423,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.UIAxes3.FontAngle = 'italic';
             app.UIAxes3.FontWeight = 'bold';
             app.UIAxes3.Box = 'on';
+            app.UIAxes3.XGrid = 'on';
+            app.UIAxes3.YGrid = 'on';
             app.UIAxes3.Position = [161 203 300 185];
 
             % Create UIAxes4
@@ -412,6 +436,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             app.UIAxes4.FontWeight = 'bold';
             app.UIAxes4.YLim = [0 1.2];
             app.UIAxes4.Box = 'on';
+            app.UIAxes4.XGrid = 'on';
+            app.UIAxes4.YGrid = 'on';
             app.UIAxes4.Position = [161 1 300 185];
 
             % Create PlotButton_2
@@ -440,6 +466,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             title(app.UIAxes5, 'Concentration profile')
             xlabel(app.UIAxes5, 'Time (ns)')
             ylabel(app.UIAxes5, 'Concentration')
+            app.UIAxes5.Box = 'on';
+            app.UIAxes5.XGrid = 'on';
             app.UIAxes5.Position = [9 216 300 185];
 
             % Create UIAxes6
@@ -447,6 +475,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             title(app.UIAxes6, {'Residuals'; ''})
             xlabel(app.UIAxes6, 'Time (ns)')
             ylabel(app.UIAxes6, 'Wavelength (nm)')
+            app.UIAxes6.Box = 'on';
+            app.UIAxes6.YGrid = 'on';
             app.UIAxes6.Position = [310 216 300 185];
 
             % Create UIAxes7
@@ -454,6 +484,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             title(app.UIAxes7, {'Left singular vector'; ''})
             xlabel(app.UIAxes7, 'Wavelength')
             ylabel(app.UIAxes7, 'Intensity')
+            app.UIAxes7.Box = 'on';
+            app.UIAxes7.YGrid = 'on';
             app.UIAxes7.Position = [9 15 300 185];
 
             % Create UIAxes8
@@ -461,12 +493,14 @@ classdef appPlugin_exported < matlab.apps.AppBase
             title(app.UIAxes8, 'Right singular vector')
             xlabel(app.UIAxes8, 'Time (ns)')
             ylabel(app.UIAxes8, 'Intensity')
+            app.UIAxes8.Box = 'on';
+            app.UIAxes8.YGrid = 'on';
             app.UIAxes8.Position = [310 15 300 185];
 
             % Create ResultsButton
             app.ResultsButton = uibutton(app.Residual_Conc_profile, 'push');
             app.ResultsButton.ButtonPushedFcn = createCallbackFcn(app, @ResultsButtonPushed, true);
-            app.ResultsButton.Position = [268 1 86 22];
+            app.ResultsButton.Position = [279 9 86 22];
             app.ResultsButton.Text = 'Results';
 
             % Create Nodal_DiagramTab
@@ -485,18 +519,27 @@ classdef appPlugin_exported < matlab.apps.AppBase
             % Create ModelButton
             app.ModelButton = uibutton(app.Nodal_DiagramTab, 'push');
             app.ModelButton.ButtonPushedFcn = createCallbackFcn(app, @ModelButtonPushed, true);
-            app.ModelButton.Position = [14 385 100 22];
+            app.ModelButton.Position = [43 376 100 22];
             app.ModelButton.Text = {'Model'; ''};
 
-            % Create CompartmentsegABEditFieldLabel
-            app.CompartmentsegABEditFieldLabel = uilabel(app.Nodal_DiagramTab);
-            app.CompartmentsegABEditFieldLabel.HorizontalAlignment = 'center';
-            app.CompartmentsegABEditFieldLabel.Position = [483 361 129 42];
-            app.CompartmentsegABEditFieldLabel.Text = {'Compartments (eg: {''A'''; '''B''...})'; ''; ''};
+            % Create PressenterafteryoufillupclickonmodelEditFieldLabel
+            app.PressenterafteryoufillupclickonmodelEditFieldLabel = uilabel(app.Nodal_DiagramTab);
+            app.PressenterafteryoufillupclickonmodelEditFieldLabel.VerticalAlignment = 'top';
+            app.PressenterafteryoufillupclickonmodelEditFieldLabel.FontAngle = 'italic';
+            app.PressenterafteryoufillupclickonmodelEditFieldLabel.Position = [46 347 241 22];
+            app.PressenterafteryoufillupclickonmodelEditFieldLabel.Text = 'Press enter after you fill up & click on model';
 
-            % Create CompartmentsegABEditField
-            app.CompartmentsegABEditField = uieditfield(app.Nodal_DiagramTab, 'text');
-            app.CompartmentsegABEditField.Position = [14 354 598 22];
+            % Create PressenterafteryoufillupclickonmodelEditField
+            app.PressenterafteryoufillupclickonmodelEditField = uieditfield(app.Nodal_DiagramTab, 'text');
+            app.PressenterafteryoufillupclickonmodelEditField.ValueChangedFcn = createCallbackFcn(app, @PressenterafteryoufillupclickonmodelEditFieldValueChanged, true);
+            app.PressenterafteryoufillupclickonmodelEditField.Position = [286 350 290 22];
+
+            % Create PleaseenterthenamesofyourcompartmentLabel
+            app.PleaseenterthenamesofyourcompartmentLabel = uilabel(app.Nodal_DiagramTab);
+            app.PleaseenterthenamesofyourcompartmentLabel.FontSize = 10;
+            app.PleaseenterthenamesofyourcompartmentLabel.FontWeight = 'bold';
+            app.PleaseenterthenamesofyourcompartmentLabel.Position = [150 370 457 37];
+            app.PleaseenterthenamesofyourcompartmentLabel.Text = 'Please enter the names of the compartments only with spaces between them (eg : AB BA BC)';
 
             % Create TracesTab
             app.TracesTab = uitab(app.TabGroup);
@@ -532,8 +575,8 @@ classdef appPlugin_exported < matlab.apps.AppBase
             % Create UIAxes9
             app.UIAxes9 = uiaxes(app.Comparision_DataTab);
             title(app.UIAxes9, 'Title')
-            xlabel(app.UIAxes9, 'X')
-            ylabel(app.UIAxes9, 'Y')
+            xlabel(app.UIAxes9, 'Wavelength')
+            ylabel(app.UIAxes9, 'Time  (ns)')
             app.UIAxes9.Position = [150 208 300 185];
 
             % Create UIAxes11
@@ -557,7 +600,7 @@ classdef appPlugin_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = appPlugin_exported
+        function app = appPluginbackup_exported
 
             % Create UIFigure and components
             createComponents(app)
