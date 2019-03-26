@@ -33,10 +33,13 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
         PressenterafteryoufillupclickonmodelEditField  matlab.ui.control.EditField
         PleaseenterthenamesofyourcompartmentLabel  matlab.ui.control.Label
         TracesTab              matlab.ui.container.Tab
-        TraceButton            matlab.ui.control.Button
-        EditFieldLabel         matlab.ui.control.Label
-        EditField              matlab.ui.control.NumericEditField
+        SlicetraceButton       matlab.ui.control.Button
+        EnternooftraceshitSlicetraceEditFieldLabel  matlab.ui.control.Label
+        EnternooftraceshitSlicetraceEditField  matlab.ui.control.NumericEditField
         UIAxes14               matlab.ui.control.UIAxes
+        TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel  matlab.ui.control.Label
+        SliderLabel            matlab.ui.control.Label
+        Slider                 matlab.ui.control.Slider
         Comparision_DataTab    matlab.ui.container.Tab
         UIAxes9                matlab.ui.control.UIAxes
         UIAxes11               matlab.ui.control.UIAxes
@@ -57,6 +60,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
         residual 
         txt2 
         kmat 
+        
           % call within other methods
     end
 
@@ -260,9 +264,9 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
  
           
             value = app.PressenterafteryoufillupclickonmodelEditField.Value;
-           if species = [];
-              disp ('fill your compartments') 
-           end
+%            if species = [];
+%               disp ('fill your compartments') 
+%            end
             species = strsplit(value);
 
             [C2,C1,rates] =find (app.kmat);
@@ -270,16 +274,20 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
             G = digraph(C1,C2,rates,species);
             H =plot(app.UIAxes13,G,'Layout','circle','EdgeLabel',G.Edges.Weight);
 %             layout(H,'layered','Direction','down');
-        
-            
+            highlight(H,[1:size(species,2)],'Marker','o','MarkerSize',25)
+            highlight(H,[1:size(species,2)],'NodeColor',[0.4660 0.6740 0.1880])
         
         end
 
-        % Button pushed function: TraceButton
-        function TraceButtonPushed(app, event)
-            Number = 2.5;
-    
-            Number = round(Number);
+        % Button pushed function: SlicetraceButton
+        function SlicetraceButtonPushed(app, event)
+%              Number = 0;
+%     a = app.EnternooftraceshitSlicetraceEditField.Value;
+%             aConverted = a;
+%             aConverted = Number
+            a = app.EnternooftraceshitSlicetraceEditField.Value;
+            aConverted = a
+            Number = round(a);
 
             x= sqrt(Number);
             sqc= ceil(x);  
@@ -295,16 +303,24 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
                 storedata_row{d} = app.data(d,[1:size(app.data,2)]);   
                    end
             
-                 trace_list=1:Lin_r:size(app.fitdata,1);
+               trace_list = 1:Lin_r:size(app.fitdata,1);
                 
-             for k= 1:Number 
-                n=trace_list(k);
-                n_rows= sqc;
-            
-              subplot(n_rows,n_rows,k);
-              plot(app.UIAxes14,app.time,storefitdata_row{n},'red');
-              hold on
-              plot(app.UIAxes14,app.time,storedata_row{n},'k --');
+               g = uigridlayout([sqc,sqc])
+               for k = 1:Number 
+                   n = trace_list(k)   %trace_list(k);
+                            
+                ax = uiaxes(g);
+                ax.Layout.Row = ceil((k-0.5)/sqc);
+                ax.Layout.Column = k-(ax.Layout.Row-1)*sqc;       
+                plot(ax,app.time,storefitdata_row{n},'red')
+                hold (ax,'on')
+                plot(ax,app.time,storedata_row{n},'k --');
+                wa = num2str(app.wavelength(n),5);
+                hold (ax,'off')
+                legend(ax,'fit','data');
+                xlabel (ax,'time (ns) '); ylabel(ax,wa);
+               
+
             end
         end
 
@@ -322,6 +338,14 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
             
 % [app.value,matches] = strsplit(str,{' ','ain'},'CollapseDelimiters',true)
         end
+
+        % Value changed function: 
+        % EnternooftraceshitSlicetraceEditField
+        function EnternooftraceshitSlicetraceEditFieldValueChanged(app, event)
+            a = app.EnternooftraceshitSlicetraceEditField.Value;
+            aConverted = a
+            %double(strsplit(a,','));
+        end
     end
 
     % Component initialization
@@ -332,6 +356,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create Pyglotaran_Plugin and hide until all components are created
             app.Pyglotaran_Plugin = uifigure('Visible', 'off');
+            app.Pyglotaran_Plugin.AutoResizeChildren = 'off';
             app.Pyglotaran_Plugin.Position = [100 100 640 480];
             app.Pyglotaran_Plugin.Name = 'UI Figure';
 
@@ -357,10 +382,12 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create TabGroup
             app.TabGroup = uitabgroup(app.Pyglotaran_Plugin);
+            app.TabGroup.AutoResizeChildren = 'off';
             app.TabGroup.Position = [10 12 621 434];
 
             % Create Parallel_Model
             app.Parallel_Model = uitab(app.TabGroup);
+            app.Parallel_Model.AutoResizeChildren = 'off';
             app.Parallel_Model.Title = 'Parallel_Model';
 
             % Create PlotButton
@@ -372,7 +399,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create UIAxes
             app.UIAxes = uiaxes(app.Parallel_Model);
-            title(app.UIAxes, 'Decay-associated spectra')
+            title(app.UIAxes, 'Decay-associated spectra (DAS)')
             xlabel(app.UIAxes, 'Wavelength (nm)')
             ylabel(app.UIAxes, 'DAS')
             app.UIAxes.FontName = 'Times New Roman';
@@ -413,6 +440,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create Sequential_Model
             app.Sequential_Model = uitab(app.TabGroup);
+            app.Sequential_Model.AutoResizeChildren = 'off';
             app.Sequential_Model.Title = 'Compartmental_Model';
 
             % Create UIAxes3
@@ -459,6 +487,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create Residual_Conc_profile
             app.Residual_Conc_profile = uitab(app.TabGroup);
+            app.Residual_Conc_profile.AutoResizeChildren = 'off';
             app.Residual_Conc_profile.Title = 'Residuals';
 
             % Create UIAxes5
@@ -505,6 +534,7 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
 
             % Create Nodal_DiagramTab
             app.Nodal_DiagramTab = uitab(app.TabGroup);
+            app.Nodal_DiagramTab.AutoResizeChildren = 'off';
             app.Nodal_DiagramTab.Title = 'Nodal_Diagram';
 
             % Create UIAxes13
@@ -545,31 +575,53 @@ classdef appPluginbackup_exported < matlab.apps.AppBase
             app.TracesTab = uitab(app.TabGroup);
             app.TracesTab.Title = 'Traces';
 
-            % Create TraceButton
-            app.TraceButton = uibutton(app.TracesTab, 'push');
-            app.TraceButton.ButtonPushedFcn = createCallbackFcn(app, @TraceButtonPushed, true);
-            app.TraceButton.Position = [199 13 100 22];
-            app.TraceButton.Text = {'Trace'; ''};
+            % Create SlicetraceButton
+            app.SlicetraceButton = uibutton(app.TracesTab, 'push');
+            app.SlicetraceButton.ButtonPushedFcn = createCallbackFcn(app, @SlicetraceButtonPushed, true);
+            app.SlicetraceButton.Position = [509 11 100 22];
+            app.SlicetraceButton.Text = {'Slice trace'; ''};
 
-            % Create EditFieldLabel
-            app.EditFieldLabel = uilabel(app.TracesTab);
-            app.EditFieldLabel.HorizontalAlignment = 'right';
-            app.EditFieldLabel.Position = [15 13 56 22];
-            app.EditFieldLabel.Text = 'Edit Field';
+            % Create EnternooftraceshitSlicetraceEditFieldLabel
+            app.EnternooftraceshitSlicetraceEditFieldLabel = uilabel(app.TracesTab);
+            app.EnternooftraceshitSlicetraceEditFieldLabel.HorizontalAlignment = 'right';
+            app.EnternooftraceshitSlicetraceEditFieldLabel.FontAngle = 'italic';
+            app.EnternooftraceshitSlicetraceEditFieldLabel.Position = [387 43 107 28];
+            app.EnternooftraceshitSlicetraceEditFieldLabel.Text = {'Enter no. of traces '; '& hit ''Slice trace'''};
 
-            % Create EditField
-            app.EditField = uieditfield(app.TracesTab, 'numeric');
-            app.EditField.Position = [86 13 100 22];
+            % Create EnternooftraceshitSlicetraceEditField
+            app.EnternooftraceshitSlicetraceEditField = uieditfield(app.TracesTab, 'numeric');
+            app.EnternooftraceshitSlicetraceEditField.ValueChangedFcn = createCallbackFcn(app, @EnternooftraceshitSlicetraceEditFieldValueChanged, true);
+            app.EnternooftraceshitSlicetraceEditField.FontAngle = 'italic';
+            app.EnternooftraceshitSlicetraceEditField.Position = [509 49 100 22];
 
             % Create UIAxes14
             app.UIAxes14 = uiaxes(app.TracesTab);
             title(app.UIAxes14, 'Time traces')
             xlabel(app.UIAxes14, 'X')
             ylabel(app.UIAxes14, 'Y')
-            app.UIAxes14.Position = [1 46 620 363];
+            app.UIAxes14.Position = [21 121 558 269];
+
+            % Create TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel = uilabel(app.TracesTab);
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel.HorizontalAlignment = 'center';
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel.FontWeight = 'bold';
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel.FontAngle = 'italic';
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel.Position = [81 11 413 22];
+            app.TheoutputoftracewillbeinanewwindowWavelengthnmasyaxisLabel.Text = 'The output of trace will be in a new window.Wavelength (nm) as y-axis';
+
+            % Create SliderLabel
+            app.SliderLabel = uilabel(app.TracesTab);
+            app.SliderLabel.HorizontalAlignment = 'right';
+            app.SliderLabel.Position = [21 82 36 22];
+            app.SliderLabel.Text = 'Slider';
+
+            % Create Slider
+            app.Slider = uislider(app.TracesTab);
+            app.Slider.Position = [78 91 150 3];
 
             % Create Comparision_DataTab
             app.Comparision_DataTab = uitab(app.TabGroup);
+            app.Comparision_DataTab.AutoResizeChildren = 'off';
             app.Comparision_DataTab.Title = 'Comparision_Data';
 
             % Create UIAxes9
