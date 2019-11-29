@@ -1,10 +1,14 @@
           
-function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_readpyglot()
+function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_readpyglot(varargin)
 [outfilename,path] = get_ncfile('*.nc');
-fullpathname = strcat(path,outfilename);
-% mac issue
+fullpathname = [path outfilename];
+    if isequal(outfilename,0) || isequal(path,0)
+        return
+    end
+
+% mac issue - still need to make all files check on
 if isfolder(fullpathname)
-    f = fullfile(fullpathname,'/.' )
+    f = fullfile(fullpathname,'/*.' )
    [outfilename,path] = uigetfile(f)
    fullpathname = strcat(path,outfilename);
 end
