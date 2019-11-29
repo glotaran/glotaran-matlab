@@ -1,4 +1,4 @@
-function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset(varargin)
+function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
 % output : 
 %   filename , raw data and final data (after trimming wavelength & time)
 % loads ascii data tested from Glotaran converted and BRC as standard 
@@ -9,7 +9,7 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset(vararg
 % case 9 - save data (special case)
 
 %%
-    [filename,pathname] = testUigetfile_ascii('*.ascii');
+    [filename,pathname] = get_ascii('*.ascii');
     % full_filepath = strcat(pathname,filename)
     full_filepath = [pathname filename];
          if isequal(filename,0) || isequal(pathname,0)
