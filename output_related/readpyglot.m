@@ -1,6 +1,6 @@
           
 function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = readpyglot()
-[outfilename,path] = testUigetfile('*.nc');
+[outfilename,path] = get_ncfile('*.nc');
 fullpathname = strcat(path,outfilename);
 ncdisp (fullpathname); 
 nc_header = ncinfo(fullpathname);

@@ -1,0 +1,5 @@
+model: '/Users/avra/Documents/glotaran-matlab/test/modelTR2.yaml'
+parameter: '/Users/avra/Documents/glotaran-matlab/test/parameterTR2.yaml'
+data:
+  #PSI_TR2: '/home/avra/ownCloud/Shared/SE2B/output_4DraftAnabaena/Tetramer/Dataset/PSI_tetramer_TR2_55uW.ascii'
+  data_TR2: '/Users/avra/Documents/glotaran-matlab/test/PSI_tetramer_TR2_55uW.ascii'
