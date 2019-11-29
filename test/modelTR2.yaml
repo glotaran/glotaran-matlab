@@ -34,7 +34,3 @@ dataset:
           initial_concentration : Excitation
           megacomplex : [m1]
           irf : irf1
-          
-        
-      
-
