@@ -1,11 +1,11 @@
-function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
+function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavelength,time,U,S,V,chk)
 % [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
 % [filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset
 % Data Exploration-UI  
 
 % Filename as loaded from the loaddataset function
             
-%             f = uifigure('Name','Data-exploration');
+            f = uifigure('Name','Data-exploration');
 %             f = app.DataExplorerTab;
 % Grid1 is created over the uifigure f
            

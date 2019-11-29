@@ -1,4 +1,4 @@
-function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset(varargin)
+function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
 % output : 
 %   filename , raw data and final data (after trimming wavelength & time)
 % loads ascii data tested from Glotaran converted and BRC as standard 
