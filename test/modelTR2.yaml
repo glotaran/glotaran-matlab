@@ -1,0 +1,36 @@
+type: kinetic-spectrum
+
+
+initial_concentration:
+    Excitation:
+        compartments: [C1, C2, C3]
+        parameters: [Excitation.1,Excitation.2,Excitation.3]
+
+k_matrix :
+    k1:
+     matrix : {
+          !tuple '(C2,C1)': kinetic.1,
+          !tuple '(C3,C2)': kinetic.2,
+          !tuple '(C3,C3)': kinetic.3,
+              }
+megacomplex :
+    m1:
+        k_matrix: [k1]
+
+irf:
+  irf1:
+    backsweep: true
+    backsweep_period: constant.cI12500
+    center : [irf.center] 
+    #dispersion_center: constant.cI688
+    #dispersion_par: [irf.4, irf.5]   
+    type : gaussian
+    width : [irf.width]
+
+   
+
+dataset:
+  data_TR2: 
+          initial_concentration : Excitation
+          megacomplex : [m1]
+          irf : irf1

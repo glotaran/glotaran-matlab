@@ -1,0 +1,24 @@
+Excitation :
+  - ['1', 1, {'vary': False, 'non-negative': False}]
+  - ['2', 0, {'vary': False, 'non-negative': False}]
+  - ['3', 0, {'vary': False, 'non-negative': False}]
+
+kinetic:
+  - [0.1,{vary: True, 'non-negative': true}]
+  - [0.05,{vary: False, 'non-negative': true}]
+  - [0.002,{vary: False,'non-negative': true}]
+
+
+irf:
+  - ['center',68]
+  - ['width', 4]
+#  - ['4',0.1]
+#  - ['5',-0.1]
+
+constant:
+#- - cI688
+#  - 680.0
+#  - {vary: false}
+  - - cI12500
+    - 12800.0
+    - {vary: false}
