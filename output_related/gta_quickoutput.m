@@ -7,7 +7,7 @@ if statusoptimize == 0
         outfilename = g.name;
         pathname = g.folder;
 
-        fullpathname = strcat(pathname,'/',outfilename)
+        fullpathname = fullfile(pathname,outfilename)
         ncdisp (fullpathname); 
     nc_header = ncinfo(fullpathname);
     variable_names = {nc_header.Variables.Name};
@@ -56,7 +56,6 @@ if statusoptimize == 0
      rms = num2str(attributes.Value);
      conc = data_struct.species_concentration;
      kmat = data_struct.k_matrix;
-%     'C:\Users\avra\surfdrive\MATLAB\MYFUNCTIONS\APP_windowstest\m8.mldatx'
 end
 end
     

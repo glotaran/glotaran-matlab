@@ -1,0 +1,10 @@
+label	value	min	max	vary	non-negative	stderr
+Excitation.1	1.0	-inf	inf	False	False	0
+Excitation.2	0.0	-inf	inf	False	False	0
+Excitation.3	0.0	-inf	inf	False	False	0
+kinetic.1	0.020792613303946217	-inf	inf	True	True	0.026918626879174564
+kinetic.2	0.05000000000000001	-inf	inf	False	True	0
+kinetic.3	0.0020000000000000005	-inf	inf	False	True	0
+irf.center	64.08838074030649	-inf	inf	True	False	0.036528447570672425
+irf.width	7.6040712724479995	-inf	inf	True	False	0.04547782196203459
+constant.cI12500	12800.0	-inf	inf	False	False	0

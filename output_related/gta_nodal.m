@@ -1,4 +1,4 @@
-function gta_nodal(out_ax0,out_ax1,kmat)
+function gta_nodal(out_ax1,kmat)
 
 % [c2,c1,ra] = find(kmat)
 ra = diag(kmat)

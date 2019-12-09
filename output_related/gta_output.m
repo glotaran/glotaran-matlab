@@ -1,17 +1,6 @@
 function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,time,lifetime,conc,outfilename,kmat)
 %[wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename] = readpyglot()
 
-% Input - 
-
-%% works in 2019
-% newcolors = [0 0 0
-%              1 0 0
-%              0 0 1
-%              0 1 0
-%              1 0 1];
-% %          
-% colororder(newcolors)
-
 
 %%
 % 
@@ -46,6 +35,12 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             plot(out_ax0,wavelength,das,"LineWidth",1.5);
             plot(out_ax1,wavelength,normdas,"LineWidth",1.5);
+            xlabel(out_ax0,'Wavelength(nm)');
+            ylabel(out_ax0,'DAS');
+            xlabel(out_ax1,'Wavelength(nm)');
+            ylabel(out_ax1,'DAS norm');
+            out_ax0.Title.String = 'Parallel Model'
+            out_ax1.Title.String = 'Parallel Model'
             
             out_ax2 = uiaxes(out_grid1);
             out_ax3 = uiaxes(out_grid1);   
@@ -56,6 +51,13 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             plot(out_ax2,wavelength,sas,"LineWidth",1.5);
             plot(out_ax3,wavelength,normsas,"LineWidth",1.5);
+            out_ax2.Title.String = 'Target Model'
+            out_ax3.Title.String = 'Target Model'
+            
+            xlabel(out_ax2,'Wavelength(nm)');
+            ylabel(out_ax2,'SAS');
+            xlabel(out_ax3,'Wavelength(nm)');
+            ylabel(out_ax3,'SAS norm');
             
             out_ax4 = uiaxes(out_grid1);
             out_ax5 = uiaxes(out_grid1);
@@ -66,6 +68,12 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             plot(out_ax4,wavelength,rsv,"LineWidth",1.5);
             plot(out_ax5,time,lsv,"LineWidth",1.5);
+            out_ax4.Title.String = 'Right singular vector'
+            out_ax5.Title.String = 'Left singular vector'
+            xlabel(out_ax4,'Wavelength (nm)');
+            ylabel(out_ax4,'Intensity');
+            xlabel(out_ax5,'Time (ns)');
+            ylabel(out_ax5,'Intensity');
             
             out_ax6 = uiaxes(out_grid1);
             out_ax7 = uiaxes(out_grid1);
@@ -77,20 +85,20 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             imagesc(out_ax6,wavelength,time,outdata');
             imagesc(out_ax7,wavelength,time,fitdata');
             
+            xlabel(out_ax6,'Wavelength(nm)');
+            ylabel(out_ax6,'Time (ns)');
+            out_ax6.Title.String = 'Original Data'
+            xlabel(out_ax7,'Wavelength(nm)');
+            ylabel(out_ax7,'Time (ns)');
+            out_ax7.Title.String = 'Fitted Data'
+            
              out_ax8 = uiaxes(out_grid1);
              out_ax8.Layout.Column = 4;
              out_ax8.Layout.Row = 3;
              plot(out_ax8,time,conc,"LineWidth",1.5);
-            
-            
-%             out_ax0.Title.String = "DAS";
-%             out_ax0.Title.String = "norm DAS"
-%             legend(out_ax0,lifetime)
-            
-            
-% hiding the rows below to see a enlarge view of the load dataset 
-%             out_grid1.RowHeight{2} = 0;  
-%             grid1.ColumnWidth{1} = 0;
+             xlabel(out_ax8,'Time (ns)');
+             ylabel(out_ax6,'Concentration');
+             out_ax6.Title.String = 'Concentration profile'            
 
 %%             
 % create other requirments 
