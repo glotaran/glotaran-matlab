@@ -12,6 +12,8 @@ function[statusoptimize,cmdoptimize,full_filename_analysis,full_filename_output,
 % full_filename_output = strcat(path_output,file_output)
 % filename1 = '/home/avra/Desktop/analysisTet_TR2.yaml'
 
+% progressbar(0)
+
 space = ' '
 n = '--nfev'
 c1 = 'glotaran optimize';
@@ -24,7 +26,9 @@ out = '-o';
 number = num2str(num2str(number))
 
 commandoptimize = [c1,space,full_filename_analysis,space,n,space,number,space,c2,space,out,space,full_filename_output,space]
+% progressbar(0.5)
 [statusoptimize,cmdoptimize] = system(commandoptimize)
+% progressbar(1)
 end
     
     
