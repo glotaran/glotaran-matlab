@@ -1,13 +1,8 @@
-function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,time,lifetime,conc,outfilename,kmat)
+function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,time,lifetime,conc,outfilename,kmat,cmdoptimize,t,t1)
 %[wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename] = readpyglot()
-
-
-%%
+% for the callback from the table 
 % 
-          
-%             out_fig = uifigure('Name','Results');
 
-% Grid1 is created over the uifigure out_fig
            
             out_grid1 = uigridlayout(out_fig);
             out_grid1.RowHeight = {'1x'};
@@ -105,33 +100,72 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
              % Add method label and drop-down
              % findMethodLabel = uilabel(grid2,'Text','Properties');
              findMethod = uidropdown(out_grid2);
-             findMethod.Items = {'Summary','Trace','Nodal'};
+             findMethod.Items = {'Summary','Nodal','Analysis Summary'};
              findMethod.ValueChangedFcn = @button_callback;
 %              ef = uieditfield(grid2,'numeric','RoundFractionalValues','on');
 %%
 % call the function of uispinned @gta_updayeSlider             
-            spn = uispinner(out_grid2,'Value',1,...
-                'Position',[100 140 100 22],'ValueDisplayFormat','%.0f SVD',...
-                'ValueChangedFcn',@(spn,event) gta_updateSlider(spn,time,V,out_ax0,ax1,ax2,wavelength,U));
-            spn.Limits = [1 15];
+%             spn = uispinner(out_grid2,'Value',1,...
+%                 'Position',[100 140 100 22],'ValueDisplayFormat','%.0f SVD',...
+%                 'ValueChangedFcn',@(spn,event) gta_updateSlider(spn,time,V,out_ax0,ax1,ax2,wavelength,U));
+%             spn.Limits = [1 15];
 %%
 % 
-       editmax = uieditfield(out_grid2,'numeric','Value', 1,'ValueDisplayFormat','%.0f Crop_Min-wavelength');
+       editmax = uieditfield(out_grid2,'numeric','Value', 1,'ValueDisplayFormat','%.0f No. of traces');
 %        editmin = uieditfield(out_grid2,'numeric','Value', 0,'ValueDisplayFormat','%.0f Crop_Max-wavelength');
 %      uieditfield(grid2);  
+%%   lifetime & Rms within uitextarea    
+       otxa = uitextarea(out_grid1);
+       otxa.Layout.Column = 1;
+       otxa.Layout.Row = 2;
+       
+      [text] = textbox_lifetime(lifetime,rms)   
+       otxa.Value = text;
+       otxa.FontName = 'Arial';
+       otxa.FontColor = 'b';
+       otxa.BackgroundColor = 'w'
+       otxa.FontAngle = 'italic';
+       otxa.FontWeight = 'bold';
+       otxa.FontSize = 15;
+%% 
+       btn1 = uibutton(out_grid2,'push',...
+                        'ButtonPushedFcn', @(btn1,event) traceButtonPushed(btn1,editmax));
+       btn1.Visible = 'on';
+       btn1.Text = 'Get Traces';
+       btn1.FontColor = 'm';
+    function traceButtonPushed(~,editmax)               
+    [val] = gta_gettracevalue(editmax);
+    g = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1) 
+%     out_fig = uitab(t)
+                    
+    end
+  
+    
+%% create new panel then grid of 4 within panel 
+            out_p2 = uipanel(out_grid1);
+            out_p2.Title = 'Options'
+            out_p2.Layout.Column = 1;
+            out_p2.Layout.Row = 3;
+            
+            og3 = uigridlayout(out_p2);
 
-       btn = uibutton(out_grid2,'push',...
-                        'ButtonPushedFcn', @(btn,event) cropButtonPushed(editmax,editmin));
-       btn.Visible = 'off';
+%% delete tab in new grid3
+           btn = uibutton(og3,'push',...
+               'Position',[85 20 70 25],...
+               'ButtonPushedFcn', @(btn,event) deletetabButtonPushed(btn,out_fig));
+           btn.Text = 'Close Tab' ;
+           btn.FontColor = 'r';
+           btn.Layout.Column = 1;
+           btn.Layout.Row = 1;
+    function deletetabButtonPushed(btn,out_fig)
+                delete(out_fig)
+    end
+
 %%    
      function button_callback(src,ev)
          method = src.Value;
          switch method
-            
-             case 'Trace'
-                 
-               [val] = gta_gettracevalue(editmax);
-               gta_plottrace(val,outdata,wavelength,time,fitdata); 
+             
                              
              case 'Nodal'
 %                  grid1.RowHeight{2} = 0;
@@ -198,10 +232,16 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
                  out_ax8.Layout.Row = 3;
                  plot(out_ax8,time,conc,"LineWidth",1.5);
 
-                
+              case 'Analysis Summary'
+%                  t = app.TabGroup;
+                 out_fig = uitab(t)
+                 out_fig.Title = 'analysis_summary';
+                 tarea = uitextarea(out_fig);
+                 tarea.Value = cmdoptimize;
+                 tarea.Position = [10 10 790 700];
+                 tarea.FontColor = 'b';
                 
 
-                
 
 
 

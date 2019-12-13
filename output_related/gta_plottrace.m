@@ -1,4 +1,4 @@
-function gta_plottrace(val,outdata,wavelength,time,fitdata)
+function [g] = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1)
         Number = round(val);
         x= sqrt(Number);
         sqc = ceil(x);  
@@ -11,7 +11,9 @@ function gta_plottrace(val,outdata,wavelength,time,fitdata)
         storedata_row{d} = outdata(d,[1:size(outdata,2)]);   
         end
          trace_list = 1:Lin_r:size(fitdata,1);
-         g = uigridlayout([sqc,sqc])
+         out_fig = uitab(t)
+         out_fig.Title = t1
+         g = uigridlayout(out_fig,[sqc,sqc])
          for k = 1:Number 
             n = trace_list(k)   %trace_list(k);
             ax = uiaxes(g);
