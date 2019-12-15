@@ -12,7 +12,9 @@ function [g] = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1)
         end
          trace_list = 1:Lin_r:size(fitdata,1);
          out_fig = uitab(t)
-         out_fig.Title = t1
+         out_fig.Title = t1;
+         out_fig.ForegroundColor = 'm';
+         out_fig.BackgroundColor = '#e6daa6';
          g = uigridlayout(out_fig,[sqc,sqc])
          for k = 1:Number 
             n = trace_list(k)   %trace_list(k);

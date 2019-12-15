@@ -92,15 +92,25 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
              out_ax8.Layout.Row = 3;
              plot(out_ax8,time,conc,"LineWidth",1.5);
              xlabel(out_ax8,'Time (ns)');
-             ylabel(out_ax6,'Concentration');
-             out_ax6.Title.String = 'Concentration profile'            
-
+             ylabel(out_ax8,'Concentration');
+             out_ax8.Title.String = 'Concentration profile'            
+             out_fig.BackgroundColor = '#e6daa6'%'#d1b26f';
+             
+             out_ax0.Box = 'on'; out_ax0.XGrid = 'on';out_ax0.YGrid = 'on';
+             out_ax1.Box = 'on'; out_ax1.XGrid = 'on';out_ax1.YGrid = 'on';
+             out_ax2.Box = 'on'; out_ax2.XGrid = 'on';out_ax2.YGrid = 'on';
+             out_ax3.Box = 'on'; out_ax3.XGrid = 'on';out_ax3.YGrid = 'on';
+             out_ax4.Box = 'on'; out_ax4.XGrid = 'on';out_ax4.YGrid = 'on';
+             out_ax5.Box = 'on'; out_ax5.XGrid = 'on';out_ax5.YGrid = 'on';
+             out_ax6.Box = 'on'; out_ax6.XGrid = 'on';out_ax6.YGrid = 'on';
+             out_ax7.Box = 'on'; out_ax7.XGrid = 'on';out_ax7.YGrid = 'on';
+             out_ax8.Box = 'on'; out_ax8.XGrid = 'on';out_ax8.YGrid = 'on';
 %%             
 % create other requirments 
              % Add method label and drop-down
              % findMethodLabel = uilabel(grid2,'Text','Properties');
              findMethod = uidropdown(out_grid2);
-             findMethod.Items = {'Summary','Nodal','Analysis Summary'};
+             findMethod.Items = {'Summary','Analysis Summary'};
              findMethod.ValueChangedFcn = @button_callback;
 %              ef = uieditfield(grid2,'numeric','RoundFractionalValues','on');
 %%
@@ -127,62 +137,58 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
        otxa.FontAngle = 'italic';
        otxa.FontWeight = 'bold';
        otxa.FontSize = 15;
-%% 
-       btn1 = uibutton(out_grid2,'push',...
+       otxa.BackgroundColor = '#e6daa6'
+%% button for plot trace, input from edit
+       btn_n = uibutton(out_grid2,'push',...
                         'ButtonPushedFcn', @(btn1,event) traceButtonPushed(btn1,editmax));
-       btn1.Visible = 'on';
-       btn1.Text = 'Get Traces';
-       btn1.FontColor = 'm';
+       btn_n.Visible = 'on';
+       btn_n.Text = 'Get Traces';
+       btn_n.FontColor = 'm';
+       
     function traceButtonPushed(~,editmax)               
     [val] = gta_gettracevalue(editmax);
-    g = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1) 
-%     out_fig = uitab(t)
-                    
+     g = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1);
+%     out_fig.ForegroundColor = 'm';
     end
   
     
 %% create new panel then grid of 4 within panel 
-            out_p2 = uipanel(out_grid1);
-            out_p2.Title = 'Options'
-            out_p2.Layout.Column = 1;
-            out_p2.Layout.Row = 3;
-            
-            og3 = uigridlayout(out_p2);
+%             out_p2 = uipanel(out_grid1);
+%             out_p2.Title = 'Options'
+%             out_p2.Layout.Column = 1;
+%             out_p2.Layout.Row = 3;
+%             
+%             og3 = uigridlayout(out_p2);
 
 %% delete tab in new grid3
-           btn = uibutton(og3,'push',...
-               'Position',[85 20 70 25],...
-               'ButtonPushedFcn', @(btn,event) deletetabButtonPushed(btn,out_fig));
-           btn.Text = 'Close Tab' ;
-           btn.FontColor = 'r';
-           btn.Layout.Column = 1;
-           btn.Layout.Row = 1;
-    function deletetabButtonPushed(btn,out_fig)
-                delete(out_fig)
+%            btn = uibutton(og3,'push',...
+%                'Position',[85 20 70 25],...
+%                'ButtonPushedFcn', @(btn,event) deletetabButtonPushed(btn,out_fig));
+%            btn.Text = 'Close Tab' ;
+%            btn.FontColor = 'r';
+%            btn.Layout.Column = 1;
+%            btn.Layout.Row = 3;
+%     
+%     function deletetabButtonPushed(btn,out_fig)
+%                 delete(out_fig)
+%     end
+%% button nodal
+           btn_n = uibutton(out_grid2,'push',...
+                        'ButtonPushedFcn', @(btn1,event) nodalButtonPushed(btn_n,kmat,out_fig,t,t1));
+       btn_n.Visible = 'on';
+       btn_n.Text = 'Create Nodal';
+       btn_n.FontColor = '#06470c';
+       
+    function nodalButtonPushed(~,kmat,out_fig,t,t1)               
+     gta_nodal(kmat,out_fig,t,t1)
+%      g = gta_plottrace(val,outdata,wavelength,time,fitdata,out_fig,t,t1);
+%     out_fig.ForegroundColor = 'm';
     end
-
 %%    
      function button_callback(src,ev)
          method = src.Value;
          switch method
-             
-                             
-             case 'Nodal'
-%                  grid1.RowHeight{2} = 0;
-%                  grid1.RowHeight{3} = 0;
-                out_grid1.RowHeight{4} = '1x';
-                out_ax0 = uiaxes(out_grid1);
-                out_ax1 = uiaxes(out_grid1);           
-                out_ax0.Layout.Column = [2 4];
-                out_ax0.Layout.Row = [1 2];       
-                out_ax1.Layout.Column = [2 4];
-                out_ax1.Layout.Row = [3 4] ;
-
-                gta_nodal(out_ax0,out_ax1,kmat)
-                out_ax0.Box = 'on';
-                out_ax1.Box = 'on';
-                out_ax0.Title.String = 'Parallal Scheme';
-                out_ax1.Title.String = 'Sequential Scheme';
+                 
             case 'Summary'
                 cla(out_ax0)
                 cla(out_ax1)

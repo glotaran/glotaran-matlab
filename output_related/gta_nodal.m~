@@ -1,4 +1,4 @@
-function gta_nodal(kmat,out_fig,t,t1)
+function gta_nodal(kmat,out_fig,t,t)
 
 
 % [c2,c1,ra] = find(kmat)
@@ -19,8 +19,7 @@ seqK = A1(1:end-1,:)
 % figure(10)
 out_fig = uitab(t)
 out_fig.Title = t1;
-out_fig.BackgroundColor = '#06470c';
-out_fig.ForegroundColor = '#06470c';
+out_fig.ForegroundColor = 'g';
 g = uigridlayout(out_fig,[1,1])
 
 Glo = digraph(gloC1,gloC2,glora)
@@ -47,8 +46,8 @@ H_Glo.NodeFontWeight = 'bold'
 %         layout(H_Glo,'layered','direction','down')
 % figure(11)
 out_ax1 = uiaxes(g)
-out_ax1.Layout.Column = 1;
-out_ax1.Layout.Row = 2; 
+out_ax0.Layout.Column = 1;
+out_ax0.Layout.Row = 2; 
 Seq = digraph(seqC1,seqC2,seqra)
 H_Seq = plot(out_ax1,Seq,'EdgeLabel',Seq.Edges.Weight,'Layout','force','ArrowSize',10)
 %         layout(H_Seq,'layered','direction','down')
@@ -65,9 +64,4 @@ H_Seq.NodeFontSize = 25;
 H_Seq.NodeFontWeight = 'bold';
 
 H_Seq.EdgeFontSize = 15;
-                out_ax0.Box = 'on';
-                out_ax1.Box = 'on';
-                out_ax0.Title.String = 'Parallal Scheme';
-                out_ax1.Title.String = 'Sequential Scheme';
-end
 %  legend( 'Sequential / Target Model');

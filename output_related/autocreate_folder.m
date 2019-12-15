@@ -8,7 +8,7 @@ path = cd(user_selected_fullpathname)
 load count.mat
 m = m + 1;
 save count.mat m;
-created_folder = ['Output_' num2str(m) '.mldatx'];
+created_folder = ['Output_' num2str(m)];
 
 %new folder name
 mkdir(created_folder)%create new folder

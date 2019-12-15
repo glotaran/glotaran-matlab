@@ -1,6 +1,6 @@
 function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = go2userchoice_output_v2(user_selected_fullpathname,user_tableselect)
         
-    user_tableselect = string(user_tableselect)
+     user_tableselect = string(user_tableselect)
      
      pattern1 = ".nc";   
      TF_nc = endsWith(user_tableselect,pattern1)
