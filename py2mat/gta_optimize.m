@@ -26,9 +26,11 @@ out = '-o';
 number = num2str(num2str(number))
 
 commandoptimize = [c1,space,full_filename_analysis,space,n,space,number,space,c2,space,out,space,full_filename_output,space]
-% progressbar(0.5)
 [statusoptimize,cmdoptimize] = system(commandoptimize)
-% progressbar(1)
+% save the analysis schema
+matfile = fullfile(full_filename_output,'cmdoptimize.mat')
+save (matfile, 'cmdoptimize')
+
 end
     
     

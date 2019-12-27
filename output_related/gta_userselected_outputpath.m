@@ -14,7 +14,6 @@ function [user_selected_fullpathname] = gta_userselected_outputpath()
 
 %%
 [user_selected_fullpathname] = uigetdir()
-
 cd (user_selected_fullpathname);
 m = 0;
 save count.mat m;

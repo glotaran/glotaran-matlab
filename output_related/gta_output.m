@@ -242,6 +242,10 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
 %                  t = app.TabGroup;
                  out_fig = uitab(t)
                  out_fig.Title = 'analysis_summary';
+                 if ~exist('cmdoptimize.mat','var')
+                     load cmdoptimize.mat
+                 end
+                     
                  tarea = uitextarea(out_fig);
                  tarea.Value = cmdoptimize;
                  tarea.Position = [10 10 790 700];
