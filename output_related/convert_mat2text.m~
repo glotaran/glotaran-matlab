@@ -1,0 +1,32 @@
+clear all; clc;
+matfile = 'Output_2_cmdoptimize.mat';
+Data = load(matfile);
+DataField = fieldnames(Data);
+
+textfile = erase(matfile,'.mat');
+textfilename = strcat(textfile,'.txt');
+
+writematrix(Data.(DataField{1}),textfilename,'Delimiter','tab')
+A1 = regexp(fileread(textfilename),'\n','split');
+start = find(contains(A1,'Iteration'))+1;
+upto = find(contains(A1,'maximum')) - 1;
+
+textfile2 = strcat(textfile,'final',''
+filename = 'test_tab.txt';
+fid = fopen(filename,'r');
+str = textscan(fid,'%s','Delimiter','\n');
+fclose(fid);
+%%  
+str2 = str{1}(start:upto); 
+% Save as a text file
+fid2 = fopen('test_2.txt','w');
+fprintf(fid2,'%s\n', str2{:});
+fclose(fid2);
+
+filename = 'test_2.txt';
+A2 = dlmread(filename);
+plot(A2(:,2),log10(A2(:,3)),'k','Marker','o','LineWidth',1.5,'MarkerEdgeColor','k','MarkerSize',10,'MarkerFaceColor','k');
+title('Iterational changes');
+xlabel('Iterations');
+ylabel('Cost');
+legend(strcat('Total Iterations-',num2str(size(A2,1))))

@@ -1,4 +1,3 @@
-          
 function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_readpyglot()
 [outfilename,path] = get_ncfile('*.nc');
 fullpathname = [path outfilename];

@@ -1,4 +1,4 @@
-function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,time,lifetime,conc,outfilename,kmat,cmdoptimize,t,t1,pathname_ana_file)
+function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,time,lifetime,conc,outfilename,kmat,cmdoptimize,t,t1)
 %[wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename] = readpyglot()
 % for the callback from the table 
 % 
@@ -34,8 +34,8 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             ylabel(out_ax0,'DAS');
             xlabel(out_ax1,'Wavelength(nm)');
             ylabel(out_ax1,'DAS norm');
-            out_ax0.Title.String = 'Parallel Model';
-            out_ax1.Title.String = 'Parallel Model';
+            out_ax0.Title.String = 'Parallel Model'
+            out_ax1.Title.String = 'Parallel Model'
             
             out_ax2 = uiaxes(out_grid1);
             out_ax3 = uiaxes(out_grid1);   
@@ -46,8 +46,8 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             plot(out_ax2,wavelength,sas,"LineWidth",1.5);
             plot(out_ax3,wavelength,normsas,"LineWidth",1.5);
-            out_ax2.Title.String = 'Target Model';
-            out_ax3.Title.String = 'Target Model';
+            out_ax2.Title.String = 'Target Model'
+            out_ax3.Title.String = 'Target Model'
             
             xlabel(out_ax2,'Wavelength(nm)');
             ylabel(out_ax2,'SAS');
@@ -63,8 +63,8 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             plot(out_ax4,wavelength,rsv,"LineWidth",1.5);
             plot(out_ax5,time,lsv,"LineWidth",1.5);
-            out_ax4.Title.String = 'Right singular vector';
-            out_ax5.Title.String = 'Left singular vector';
+            out_ax4.Title.String = 'Right singular vector'
+            out_ax5.Title.String = 'Left singular vector'
             xlabel(out_ax4,'Wavelength (nm)');
             ylabel(out_ax4,'Intensity');
             xlabel(out_ax5,'Time (ns)');
@@ -82,10 +82,10 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
             xlabel(out_ax6,'Wavelength(nm)');
             ylabel(out_ax6,'Time (ns)');
-            out_ax6.Title.String = 'Original Data';
+            out_ax6.Title.String = 'Original Data'
             xlabel(out_ax7,'Wavelength(nm)');
             ylabel(out_ax7,'Time (ns)');
-            out_ax7.Title.String = 'Fitted Data';
+            out_ax7.Title.String = 'Fitted Data'
             
              out_ax8 = uiaxes(out_grid1);
              out_ax8.Layout.Column = 4;
@@ -93,9 +93,8 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
              plot(out_ax8,time,conc,"LineWidth",1.5);
              xlabel(out_ax8,'Time (ns)');
              ylabel(out_ax8,'Concentration');
-             out_ax8.Title.String = 'Concentration profile'  ;          
-%              out_fig.BackgroundColor = '#e6daa6';%'#d1b26f';;
-             out_fig.BackgroundColor = [0.65 0.65 0.65];
+             out_ax8.Title.String = 'Concentration profile'            
+             out_fig.BackgroundColor = '#e6daa6'%'#d1b26f';
              
              out_ax0.Box = 'on'; out_ax0.XGrid = 'on';out_ax0.YGrid = 'on';
              out_ax1.Box = 'on'; out_ax1.XGrid = 'on';out_ax1.YGrid = 'on';
@@ -111,7 +110,7 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
              % Add method label and drop-down
              % findMethodLabel = uilabel(grid2,'Text','Properties');
              findMethod = uidropdown(out_grid2);
-             findMethod.Items = {'Summary'};
+             findMethod.Items = {'Summary','Analysis Summary'};
              findMethod.ValueChangedFcn = @button_callback;
 %              ef = uieditfield(grid2,'numeric','RoundFractionalValues','on');
 %%
@@ -130,16 +129,15 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
        otxa.Layout.Column = 1;
        otxa.Layout.Row = 2;
        
-      [text] = textbox_lifetime(lifetime,rms) ;  
+      [text] = textbox_lifetime(lifetime,rms)   
        otxa.Value = text;
        otxa.FontName = 'Arial';
-       otxa.FontColor = 'k';
-%        otxa.BackgroundColor = [1 1 1];
+       otxa.FontColor = 'b';
+       otxa.BackgroundColor = 'w'
        otxa.FontAngle = 'italic';
-%        otxa.FontWeight = 'bold';
-       otxa.FontSize = 12;
-%        otxa.BackgroundColor = '#e6daa6';
-       otxa.BackgroundColor = [0.94 0.94 0.94];
+       otxa.FontWeight = 'bold';
+       otxa.FontSize = 15;
+       otxa.BackgroundColor = '#e6daa6';
 %% button for plot trace, input from edit
        btn_n = uibutton(out_grid2,'push',...
                         'ButtonPushedFcn', @(btn1,event) traceButtonPushed(btn1,editmax));
@@ -240,9 +238,37 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
                 out_ax8.Layout.Row = 3;
                 plot(out_ax8,time,conc,"LineWidth",1.5);
 
-
+              case 'Analysis Summary'
+%                  t = app.TabGroup;
+                 out_fig = uitab(t)
+                 ansum = strcat(t1,'analysis')
+%                  out_fig.Title = 'analysis_summary';
+                    out_fig.Title = ansum;
+%                  if ~exist('cmdoptimize.mat','var')
+                    to_open = strcat(outfilename,'_cmdoptimize.mat')
+%                      load cmdoptimize.mat
+                    load(to_open)
+%                  end
+%                  out_fig.UserData = cmdoptimize.mat    
+                 tarea = uitextarea(out_fig);
+                 tarea.Value = cmdoptimize;
+                 tarea.Position = [10 10 790 700];
+                 tarea.FontColor = 'b';
                 
-                               
+
+
+
+
+%% works
+%                 grid1.RowHeight{2} = 0;
+%                 grid2.RowHeight{3} = 0;
+%                 gta_cropdata(650,750,wavelength,dataf)
+%                [cutdata,wavelengthcut] = gta_cropdata(650,750,wavelength,dataf)
+%                 imagesc(ax,wavelengthcut,time,cutdata');
+                
+                
+
+     
           end
        end
                  

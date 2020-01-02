@@ -1,4 +1,8 @@
 function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_quickreadoutput(statusoptimize,full_filename_output)
+%% For reading output tabs from the analysis ran
+% opens nc file for the last directory it is in 
+% 
+%%
 if statusoptimize == 0 
     
         cd(fullfile(full_filename_output))

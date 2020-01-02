@@ -9,6 +9,6 @@ space = ' '
 c1 = 'glotaran validate -m';
 c2 = '-p';
 
-command = [c1,space,filename1,space,c2,space,filename2]
-[status,cmdout0] = system(command,'-echo')
+command = [c1,space,filename1,space,c2,space,filename2];
+[status,cmdout0] = system(command,'-echo');
 end
