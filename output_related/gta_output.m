@@ -244,7 +244,13 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
                 
                                
           end
-       end
+     end
                  
-                
+%             CButton = uibutton(out_fig, 'state');
+% %             app.CButton.HorizontalAlignment = 'left';
+%             CButton.Text = 'C';
+%             CButton.FontSize = 8;
+%             CButton.Position = [11 731 100 100];             
+%              m = uimenu(out_fig);
+%              m.Text = 'Open Selection';
 end
