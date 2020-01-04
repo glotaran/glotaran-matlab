@@ -182,9 +182,9 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wav
                ax3.XGrid = 'on';
                ax3.YGrid = 'on';
                
-               ax1.Color = [0.7 0.7 0.7];
-               ax2.Color = [0.7 0.7 0.7];
-               ax3.Color = [0.7 0.7 0.7];
+%                ax1.Color = [0.7 0.7 0.7];
+%                ax2.Color = [0.7 0.7 0.7];
+%                ax3.Color = [0.7 0.7 0.7];
                ax1.LineWidth = 1.5;  
                ax2.LineWidth = 1.5;
                ax3.LineWidth = 1.5;

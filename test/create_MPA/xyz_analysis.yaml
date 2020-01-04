@@ -1,4 +1,4 @@
-model: '/Users/avra/Documents/glotaran-matlab/test/create_MPA/xyz_model.yaml'
+model: '/Users/avra/Documents/glotaran-matlab/test/create_MPA/examplemodel.yaml'
 parameter: '/Users/avra/Documents/glotaran-matlab/test/create_MPA/xyz_parameter.yaml'
 
 data:

@@ -1,4 +1,4 @@
-function [user_selected_fullpathname] = gta_userselected_outputpath()
+function [user_selected_fullpathname,openname] = gta_userselected_outputpath()
 % directory choice - creates .mat file keeping in track of latest output name 
 % go2userchoice_output - navigates & seeks for presence of nc files
 
@@ -13,7 +13,8 @@ function [user_selected_fullpathname] = gta_userselected_outputpath()
 % fileattrib('D:/work/results','+h -w','','s')
 
 %%
-[user_selected_fullpathname] = uigetdir()
+[user_selected_fullpathname] = uigetdir();
+[~,openname] = fileparts(user_selected_fullpathname)
 cd (user_selected_fullpathname);
 %% if .m file ... 
 m = 0;

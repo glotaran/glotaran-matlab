@@ -60,7 +60,7 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
             U = -U1 ;
             V = -V1 ;
         otherwise
-            A = imread('ngc6543a.jpg')
+            A = imread('ngc6543a.jpg');
            %%% fix this 
 
 
