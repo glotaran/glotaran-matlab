@@ -1,12 +1,12 @@
 function[statusoptimize,cmdoptimize,full_filename_analysis,full_filename_output,file_output]= gta_optimize(number,user_selected_fullpathname)
 
 
-[file_analysis,pathanalysis] = get_yamlfile('*.yaml')
-full_filename_analysis = strcat(pathanalysis,file_analysis)
+[file_analysis,pathanalysis] = get_yamlfile('*.yaml');
+full_filename_analysis = strcat(pathanalysis,file_analysis);
 
 
-[file_output] = autocreate_folder(user_selected_fullpathname)
-full_filename_output = fullfile(user_selected_fullpathname,file_output)
+[file_output] = autocreate_folder(user_selected_fullpathname);
+full_filename_output = fullfile(user_selected_fullpathname,file_output);
 
 % [file_output,path_output] = uiputfile()
 % full_filename_output = strcat(path_output,file_output)

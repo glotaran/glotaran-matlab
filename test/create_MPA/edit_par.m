@@ -9,7 +9,7 @@ replacecatch1 = "- ['center',68.0]";
 fid = fopen(textfilename);
 str = textscan(fid,'%s','Delimiter','\n','CollectOutput',true);
 fclose( fid );
-str2 = str{1}(1:end)
+str2 = str{1}(1:end);
 fid = fopen(textfilename, 'w' );
 %     fprintf(fid2,'%s\n', str{:});
 %     fclose(fid2);

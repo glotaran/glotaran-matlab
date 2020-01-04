@@ -14,7 +14,7 @@ function [user_selected_fullpathname,openname] = gta_userselected_outputpath()
 
 %%
 [user_selected_fullpathname] = uigetdir();
-[~,openname] = fileparts(user_selected_fullpathname)
+[~,openname] = fileparts(user_selected_fullpathname);
 cd (user_selected_fullpathname);
 %% if .m file ... 
 m = 0;
