@@ -23,3 +23,6 @@ Therefore, **all features within the application are not implemented at this poi
   **Application features :**
   
   _At this point, very basic features are implemented. Such as quick analysis with the analysis schema and access to the outputs._
+  
+  
+  [![View glotaran-matlab on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://nl.mathworks.com/matlabcentral/fileexchange/73842-glotaran-matlab)
