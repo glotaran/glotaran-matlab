@@ -4,7 +4,7 @@ Matlab plugin for pyglotaran
 **Note : 
 The application *gta_plotter.mlapp* is partly functional and the development is in progress.** 
 
-*( https://github.com/AvratanuBiswas/glotaran-matlab/tree/master/app/gta_plotter.mlapp).*
+*( https://github.com/AvratanuBiswas/glotaran-matlab/tree/master/app/)*
 
 Therefore, **all features within the application are not implemented at this point.**
 - The application file <gta_plotter.mlapp> with very basic features is tested and can be used with Matlab version 2018      onnwards
