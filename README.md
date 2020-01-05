@@ -18,3 +18,8 @@ Therefore, **all features within the application are not implemented at this poi
   - Once the application opens, check the version of the installed pyglotaran from the 'Help' menu bar
   - If the version pops up successfully, the application is working and can be used further. 
   - Please make sure to report any sorts of error.
+  
+  
+  **Application features :**
+  
+  _At this point, very basic features are implemented. Such as quick analysis with the analysis schema and access to the outputs._
