@@ -22,7 +22,7 @@ function gta_output(out_fig,wavelength,das,sas,normdas,normsas,lsv,rsv,fitdata,o
             
 % axes loads the results directly
             out_ax0 = uiaxes(out_grid1);
-            out_ax1 = uiaxes(out_grid1);           
+            out_ax1 = uiaxes(out_grid1);          
             out_ax0.Layout.Column = 2;
             out_ax0.Layout.Row = 1;       
             out_ax1.Layout.Column = 3;
