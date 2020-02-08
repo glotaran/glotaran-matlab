@@ -1,5 +1,6 @@
 function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
 % read data from ascii file
+% output : filename,data,dataf,wavelength,time,U,S,V,chk
 % output : 
 %   filename , raw data and final data (after trimming wavelength & time)
 % loads ascii data tested from Glotaran converted and BRC as standard 
