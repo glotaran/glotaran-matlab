@@ -1,5 +1,5 @@
 function [grid1,p,ax,grid2,time] = gta_dataload_GUI(f,filename,data,dataf,wavelength,time,U,S,V,chk)
-% [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
+% [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavelength,time,U,S,V,chk)
 % [filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset
 % Data Exploration-UI  
 

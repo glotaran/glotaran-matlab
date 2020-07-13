@@ -29,17 +29,17 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
 
     [dataset,headerlinesOut] = importdata(full_filepath);
     
-    if size(dataset.data,2)<4
-        xaxis = dataset.data(:,1);
-
-        fprintf('Not a 2Dimensional Data.')
-        plot(xaxis,dataset.data(:,2));
-        hold on
-       
-        plot(xaxis,dataset.data(:,3))
-        return
-        
-    end
+%     if size(dataset.data,2)<4
+%         xaxis = dataset.data(:,1);
+% 
+%         fprintf('Not a 2Dimensional Data.')
+%         plot(xaxis,dataset.data(:,2));
+%         hold on
+%        
+%         plot(xaxis,dataset.data(:,3))
+%         return
+%         
+%     end
 
      if ~isstruct(dataset)
          
