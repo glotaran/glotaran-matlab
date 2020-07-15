@@ -1,4 +1,4 @@
-function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
+function [grid1,p,ax,grid2,time,cropmin,cropmax] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
 % [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavelength,time,U,S,V,chk)
 % [filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset
 % Data Exploration-UI  
@@ -129,7 +129,7 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wav
       [cropmin,cropmax] = gta_cropButtonPushed(editmax,editmin);
 
        btn = uibutton(grid2,'push','Position',[100 10 10 10],...
-                        'ButtonPushedFcn', @(btn,event) gta_buttonsavedata(cropmin,cropmax,wavelength,dataf,time));
+                        'ButtonPushedFcn', @(btn,event) gta_buttonsavedata(cropmin,cropmax,wavelength,dataf,time,f));
        btn.Visible = 'on';
        btn.Text = 'Save to folder';
 %%   
