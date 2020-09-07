@@ -1,5 +1,4 @@
-          
-function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_readpyglot(varargin)
+function [wavelength,time,lifetime,das,sas,normdas,normsas,lsv,rsv,fitdata,outdata,rms,conc,outfilename,kmat] = gta_readpyglot()
 [outfilename,path] = get_ncfile('*.nc');
 fullpathname = [path outfilename];
     if isequal(outfilename,0) || isequal(path,0)
@@ -41,7 +40,7 @@ end
 
 wavelength = data_struct.spectral;
 time = data_struct.time;
-lifetime = num2cellstr(-data_struct.lifetime);
+lifetime = num2cellstr(-data_struct.lifetime)
 das = data_struct.decay_associated_spectra;
     for i=1:size(das,1);
         das_max = max(abs(das(i,:)));

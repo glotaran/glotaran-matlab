@@ -6,7 +6,7 @@ load ('cropdata_wavelength.mat');
 
 % figure()
 imagesc(ax,wavelengthcut,time,cutdata');
-
+%% 
 % make ascii 
 wavelengthcut1 = [ 0; wavelengthcut];
 newdata0 = [wavelengthcut cutdata ];

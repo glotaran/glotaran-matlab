@@ -1,0 +1,15 @@
+type: kinetic-spectrum
+initial_concentration:
+  Excitation:
+    compartments: [C1, C2, C3]
+    parameters: [Excitation.1, Excitation.2, Excitation.3]
+K_matrix:
+  k1:
+    matrix: {kinetic1: C1C2, kinetic2: C2C3, kinetic3: C3C3}
+megacomplex:
+  m1: {k_matrix: '[k1]'}
+irf:
+  irf1: {backsweep: 'true', backsweep_period: irf.3, center: irf.1, width: irf.2,
+    type: gaussian}
+dataset:
+  data_TR2: {initial_concentration: Excitation, megacomplex: '[m1]', irf: irf1}

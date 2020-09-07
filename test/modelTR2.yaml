@@ -21,11 +21,11 @@ irf:
   irf1:
     backsweep: true
     backsweep_period: constant.cI12500
-    center : [irf.center] 
+    center : irf.center 
     #dispersion_center: constant.cI688
     #dispersion_par: [irf.4, irf.5]   
     type : gaussian
-    width : [irf.width]
+    width : irf.width
 
    
 

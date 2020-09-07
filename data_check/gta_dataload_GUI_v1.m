@@ -1,12 +1,12 @@
-function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavelength,time,U,S,V,chk)
-% [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
+function [grid1,p,ax,grid2,time,cropmin,cropmax] = gta_dataload_GUI_v1(f,filename,data,dataf,wavelength,time,U,S,V,chk)
+% [f,grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavelength,time,U,S,V,chk)
 % [filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset
 % Data Exploration-UI  
 
 % Filename as loaded from the loaddataset function
             
-            f = uifigure('Name','Data-exploration');
-%             f = app.DataExplorerTab;
+%              f = uifigure('Name','Data-exploration');
+%              f = app.DataExplorerTab;
 % Grid1 is created over the uifigure f
            
             grid1 = uigridlayout(f);
@@ -21,7 +21,7 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavel
            
 % Create grid2 in the panel p 
             grid2 = uigridlayout(p);
-            grid2.RowHeight = {22, 22, 22, 22};
+            grid2.RowHeight = {22, 22, 22, 22, 22};
             grid2.ColumnWidth = {'1x'};
 %           grid2.ColumnWidth{2} = 0         
             
@@ -123,10 +123,18 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavel
        editmax = uieditfield(grid2,'numeric','Value', 0,'ValueDisplayFormat','%.0f Crop_Min-wavelength');
        editmin = uieditfield(grid2,'numeric','Value', 0,'ValueDisplayFormat','%.0f Crop_Max-wavelength');
 %      uieditfield(grid2);  
+%        nl = uigridlayout(grid2); 
+%        nl.Layout.Row = 3;
+%        nl.Layout.Column = 2;
+      [cropmin,cropmax] = gta_cropButtonPushed(editmax,editmin);
 
-       btn = uibutton(grid2,'push',...
-                        'ButtonPushedFcn', @(btn,event) cropButtonPushed(editmax,editmin));
-       btn.Visible = 'off';
+       btn = uibutton(grid2,'push','Position',[100 10 10 10],...
+                        'ButtonPushedFcn', @(btn,event) gta_buttonsavedata(cropmin,cropmax,wavelength,dataf,time,f));
+       btn.Visible = 'on';
+       btn.Text = 'Save to folder';
+%%   
+% create a new button for saving to path
+
 %%    
      function button_callback(src,ev)
          method = src.Value;
@@ -182,9 +190,9 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavel
                ax3.XGrid = 'on';
                ax3.YGrid = 'on';
                
-               ax1.Color = [0.7 0.7 0.7];
-               ax2.Color = [0.7 0.7 0.7];
-               ax3.Color = [0.7 0.7 0.7];
+%                ax1.Color = [0.7 0.7 0.7];
+%                ax2.Color = [0.7 0.7 0.7];
+%                ax3.Color = [0.7 0.7 0.7];
                ax1.LineWidth = 1.5;  
                ax2.LineWidth = 1.5;
                ax3.LineWidth = 1.5;
@@ -212,7 +220,7 @@ function [grid1,p,ax,grid2,time] = gta_dataload_GUI_v1(filename,data,dataf,wavel
 %                 imagesc(ax,wavelengthcut,time,cutdata');
              case 'Save-crop Data'
                  [cropmin,cropmax] = gta_cropButtonPushed(editmax,editmin);
-                 [cutdata,wavelengthcut] = gta_cropdata_noplot(ax,cropmin,cropmax,wavelength,dataf,time);
+                 [cutdata,wavelengthcut] = gta_cropdata_noplot(cropmin,cropmax,wavelength,dataf,time);
                  gta_savecropdata(ax,cutdata,wavelengthcut,time);
 %              case 'Reopen-saved Data'
 %                   [filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loadsaveddata()

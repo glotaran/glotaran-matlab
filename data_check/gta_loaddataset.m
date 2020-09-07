@@ -1,4 +1,6 @@
 function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
+% read data from ascii file
+% output : filename,data,dataf,wavelength,time,U,S,V,chk
 % output : 
 %   filename , raw data and final data (after trimming wavelength & time)
 % loads ascii data tested from Glotaran converted and BRC as standard 
@@ -10,6 +12,15 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
 
 %%
     [filename,pathname] = get_ascii('*.ascii');
+        data = [];
+%         data = dataset.data;
+        dataf = [];
+        wavelength = [];
+        U = [];
+        S = [];
+        V = [];
+        time = [];
+        chk = [];
     % full_filepath = strcat(pathname,filename)
     full_filepath = [pathname filename];
          if isequal(filename,0) || isequal(pathname,0)
@@ -17,8 +28,21 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
          end
 
     [dataset,headerlinesOut] = importdata(full_filepath);
+    
+%     if size(dataset.data,2)<4
+%         xaxis = dataset.data(:,1);
+% 
+%         fprintf('Not a 2Dimensional Data.')
+%         plot(xaxis,dataset.data(:,2));
+%         hold on
+%        
+%         plot(xaxis,dataset.data(:,3))
+%         return
+%         
+%     end
 
      if ~isstruct(dataset)
+         
                 chk = 9;
                 data = dataset;
 
@@ -28,7 +52,9 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
                 [U1,S,V1] = svd(dataf);
                 U = -U1 ;
                 V = -V1 ;
-     else
+     
+
+         else
 
         data = dataset.data;
 
@@ -59,9 +85,10 @@ function[filename,data,dataf,wavelength,time,U,S,V,chk] = gta_loaddataset()
             [U1,S,V1] = svd(dataf);
             U = -U1 ;
             V = -V1 ;
-        otherwise
-            A = imread('ngc6543a.jpg')
+        case 2
+%             A = imread('ngc6543a.jpg');
            %%% fix this 
+           plot(dataset.data(:,1),dataset.data(:,2))
 
 
        end
